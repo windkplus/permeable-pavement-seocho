@@ -1,0 +1,4 @@
+﻿Model,CV_R2_mean,CV_R2_std,CV_RMSE_mean(m³),CV_RMSE_std(m³),CV_MAE_mean(m³),CV_MAE_std(m³),Split_R2_train,Split_R2_test,Split_RMSE(m³),Split_MAE(m³)
+Linear Regression,0.6703,0.1466,6448.1,2124.0,4747.8,624.4,0.8132,0.4198,6162.9,5074.5
+Random Forest,0.6827,0.1422,6926.3,4585.7,4135.9,824.2,0.938,0.6777,4593.1,3577.8
+XGBoost,0.7347,0.1485,6400.4,4645.5,3624.3,986.5,0.9999,0.7888,3718.3,2962.0

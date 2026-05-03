@@ -1,0 +1,4 @@
+﻿Model,Bias_m3,RMSE_m3,MAE_m3,Skewness,Kurtosis,Shapiro_W,Shapiro_p
+XGBoost,433.6,7616.5,3621.0,7.833,90.634,0.5096,0.0
+Random Forest,370.7,8036.3,4133.1,7.394,81.023,0.549,0.0
+Linear Regression,88.4,6719.5,4749.5,2.749,21.192,0.8338,0.0

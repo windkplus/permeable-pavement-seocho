@@ -1,0 +1,4 @@
+Model,R²_train,R²_test,RMSE(m³),MAE(m³)
+Linear Regression,0.8132,0.4198,6162.9,5074.5
+Random Forest,0.938,0.6777,4593.1,3577.8
+XGBoost,0.9999,0.7888,3718.3,2962.0

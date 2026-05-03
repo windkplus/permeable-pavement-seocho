@@ -1,0 +1,16 @@
+﻿model,fold,n_test,R2,RMSE,MAE
+Linear Regression,1,41,0.4198,6162.9,5074.5
+Linear Regression,2,40,0.6821,5113.8,4153.6
+Linear Regression,3,40,0.7466,10151.2,5652.5
+Linear Regression,4,40,0.7965,5018.3,4231.4
+Linear Regression,5,40,0.7065,5794.5,4627.2
+Random Forest,1,41,0.6714,4637.6,3579.6
+Random Forest,2,40,0.7699,4350.7,3644.7
+Random Forest,3,40,0.4395,15097.3,5574.1
+Random Forest,4,40,0.7688,5349.1,3836.6
+Random Forest,5,40,0.7639,5197.0,4044.3
+XGBoost,1,41,0.7836,3763.2,2962.6
+XGBoost,2,40,0.8017,4038.7,3326.8
+XGBoost,3,40,0.4718,14655.4,5360.4
+XGBoost,4,40,0.7826,5187.1,3393.9
+XGBoost,5,40,0.834,4357.4,3077.6
