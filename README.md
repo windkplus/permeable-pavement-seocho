@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/1227787164.svg)](https://doi.org/10.5281/zenodo.19998726)
+
 # Climate-Resilient Stormwater Management through Spatially Optimized Permeable Pavement
 ## Reproducibility Package
 
@@ -5,8 +7,9 @@ This repository contains all code, input data, and processed results that reprod
 
 > Kang, J. et al. (2026). *Climate-Resilient Stormwater Management through Spatially Optimized Permeable Pavement: An Interpretable AI–Hydrology Framework for Seocho-gu, Seoul.* Climate Risk Management. (Manuscript number CLRM-D-26-00388, under revision.)
 
-A Zenodo-archived version with citable DOI will be deposited at acceptance.
-
+This repository is permanently archived on Zenodo (concept DOI:
+  [10.5281/zenodo.19998726](https://doi.org/10.5281/zenodo.19998726); v1.0.0 DOI:
+  [10.5281/zenodo.19998727](https://doi.org/10.5281/zenodo.19998727)).
 ---
 
 ## Repository Structure
