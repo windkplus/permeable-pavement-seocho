@@ -10,8 +10,8 @@ This repository contains all code, input data, and processed results that reprod
 This repository is permanently archived on Zenodo (concept DOI:
   [10.5281/zenodo.19998726](https://doi.org/10.5281/zenodo.19998726); v1.0.0 DOI:
   [10.5281/zenodo.19998727](https://doi.org/10.5281/zenodo.19998727)). The second-revision (R2)
-  snapshot is release **v1.1.0**, which adds the multi-return-period and climate-stress
-  sensitivity analysis (scripts 15–17).
+  snapshot is release **v1.1.1**, which adds the multi-return-period and climate-stress
+  sensitivity analysis (scripts 15–17) using the official KICT (2019) design-rainfall depths.
 ---
 
 ## Repository Structure
