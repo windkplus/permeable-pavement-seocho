@@ -1,0 +1,163 @@
+"""
+17_multi_return_period.py
+Multi-return-period sensitivity (Reviewer #1-1, #2-1: "multiple return periods").
+
+Re-runs the baseline + uniform PP coverage sweep (0-100%) for four design-storm
+return periods. Return-period depths are obtained by applying frequency growth
+factors to the 10-year 60-min Huff 4th-quartile storm (67.6 mm; KICT 2019),
+preserving the temporal (Huff) pattern:
+
+    Return period   Growth factor   60-min depth (mm)
+    10-yr           1.00            67.6   (base, present design)
+    30-yr           1.25            84.5
+    50-yr           1.36            91.9
+    100-yr          1.54           104.1
+
+The growth factors are documented as approximate frequency ratios relative to
+the 10-year event (to be reconciled with the official KICT 2019 / KMA
+probability-rainfall values); absolute depths are therefore approximate.
+
+Scaling is applied by multiplying the SWMM TS_RAIN intensity ordinates (the
+rain-gauge SCF field is the snow-catch factor and does NOT scale rainfall).
+
+Output: results/simulation_results_return_periods.csv
+"""
+
+import os
+import numpy as np
+import pandas as pd
+from pyswmm import Simulation, Nodes
+
+BASE_DIR   = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_INP   = os.path.join(BASE_DIR, 'model/seocho_baseline.inp')
+SCEN_DIR   = os.path.join(BASE_DIR, 'model/scenarios_return_periods')
+PARAMS_CSV = os.path.join(BASE_DIR, 'results/subcatchment_params.csv')
+OUTPUT_CSV = os.path.join(BASE_DIR, 'results/simulation_results_return_periods.csv')
+
+os.makedirs(SCEN_DIR, exist_ok=True)
+
+# Return period -> frequency growth factor relative to the 10-yr event
+RETURN_PERIODS = {
+    10:  1.00,
+    30:  1.25,
+    50:  1.36,
+    100: 1.54,
+}
+BASE_DEPTH_MM = 67.6
+
+LID_CONTROL_BLOCK = """
+[LID_CONTROLS]
+PP                 PP
+PP                 SURFACE    0       0         0.013            0              0
+PP                 PAVEMENT   100     0.15      0                500            0
+PP                 STORAGE    200     0.4       50               0
+PP                 DRAIN      0       0.5       0                0              0              0
+"""
+
+
+def make_lid_usage(df_params, lid_rate_pct):
+    lines = ["[LID_USAGE]"]
+    for _, r in df_params.iterrows():
+        sc_name  = 'SC_' + str(r['ADM_CD'])
+        area_m2  = r['area_ha'] * 10_000
+        imp_area = area_m2 * (r['impervious_pct'] / 100)
+        lid_area = imp_area * (lid_rate_pct / 100)
+        if lid_area < 1:
+            continue
+        width = max(1.0, round(np.sqrt(lid_area), 1))
+        lines.append(
+            f"{sc_name:<21} {'PP':<16} {'1':<7} "
+            f"{lid_area:<10.1f} {width:<10.1f} "
+            f"{'0':<10} {'100':<10} {'0':<10} "
+            f"{'*':<10} {'*':<10} {'0'}")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def make_scaled_base(base_inp, factor):
+    with open(base_inp, 'r', encoding='utf-8') as f:
+        content = f.read()
+    out = []
+    for line in content.splitlines():
+        s = line.strip()
+        if s.startswith('TS_RAIN') and not s.startswith('TS_RAIN ;'):
+            parts = line.split()
+            if len(parts) == 4:
+                try:
+                    val = float(parts[3]) * factor
+                    line = f"{parts[0]:<21} {parts[1]:<12} {parts[2]:<10} {val:.4f}"
+                except ValueError:
+                    pass
+        out.append(line)
+    return "\n".join(out)
+
+
+def generate_inp(scaled_base, output_inp, lid_rate_pct, df_params):
+    with open(output_inp, 'w', encoding='utf-8') as f:
+        f.write(scaled_base)
+        if lid_rate_pct != 0:
+            f.write("\n" + LID_CONTROL_BLOCK + "\n")
+            f.write(make_lid_usage(df_params, lid_rate_pct))
+
+
+def run_simulation(inp_path):
+    total, peak, prev = 0.0, 0.0, None
+    with Simulation(inp_path) as sim:
+        outfall = Nodes(sim)['OUTFALL_1']
+        for _ in sim:
+            flow = outfall.total_inflow
+            t = sim.current_time
+            if prev is not None:
+                total += flow * (t - prev).total_seconds()
+            prev = t
+            if flow > peak:
+                peak = flow
+    return total, peak
+
+
+df_params = pd.read_csv(PARAMS_CSV)
+lid_rates = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+rows = []
+
+print("=" * 72)
+print("Multi-return-period sweep")
+print("=" * 72)
+
+for rp, factor in RETURN_PERIODS.items():
+    depth = BASE_DEPTH_MM * factor
+    scaled_base = make_scaled_base(BASE_INP, factor)
+    print(f"\n--- {rp}-yr  (x{factor:.2f}, {depth:.1f} mm) ---")
+    rp_results = []
+    for rate in lid_rates:
+        inp = os.path.join(SCEN_DIR, f"RP{rp:03d}_LID{rate:03d}.inp")
+        generate_inp(scaled_base, inp, rate, df_params)
+        total_m3, peak_cms = run_simulation(inp)
+        rp_results.append((rate, total_m3, peak_cms))
+    base_vol  = rp_results[0][1]
+    base_peak = rp_results[0][2]
+    for rate, total_m3, peak_cms in rp_results:
+        red_m3  = base_vol - total_m3
+        red_pct = red_m3 / base_vol * 100
+        rows.append({
+            'return_period_yr': rp,
+            'growth_factor': factor,
+            'depth_mm': round(depth, 1),
+            'lid_rate_pct': rate,
+            'total_runoff_m3': round(total_m3, 1),
+            'peak_flow_cms': round(peak_cms, 4),
+            'vol_reduction_m3': round(red_m3, 1),
+            'vol_reduction_pct': round(red_pct, 1),
+        })
+        print(f"  {rate:3d}%  total={total_m3:>11,.0f}  red={red_pct:5.1f}%  peak={peak_cms:.2f}")
+
+df = pd.DataFrame(rows)
+df.to_csv(OUTPUT_CSV, index=False, encoding='utf-8-sig')
+
+print("\n" + "=" * 72)
+print("SUMMARY: reduction rate (%) by coverage x return period")
+print("=" * 72)
+piv = df.pivot(index='lid_rate_pct', columns='return_period_yr', values='vol_reduction_pct')
+print(piv.to_string())
+print("\nBaseline runoff (0% LID) by return period (m3):")
+print(df[df.lid_rate_pct == 0].set_index('return_period_yr')['total_runoff_m3'].to_string())
+print(f"\nsaved -> {OUTPUT_CSV}")

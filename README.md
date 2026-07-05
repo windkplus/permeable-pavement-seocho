@@ -1,15 +1,17 @@
 [![DOI](https://zenodo.org/badge/1227787164.svg)](https://doi.org/10.5281/zenodo.19998726)
 
-# Climate-Resilient Stormwater Management through Spatially Optimized Permeable Pavement
+# Scenario-Based, Stormwater-Risk-Informed Screening of Spatially Optimized Permeable Pavement
 ## Reproducibility Package
 
 This repository contains all code, input data, and processed results that reproduce the analyses in:
 
-> Kang, J. et al. (2026). *Climate-Resilient Stormwater Management through Spatially Optimized Permeable Pavement: An Interpretable AI–Hydrology Framework for Seocho-gu, Seoul.* Climate Risk Management. (Manuscript number CLRM-D-26-00388, under revision.)
+> Kang, J. et al. (2026). *Scenario-Based, Stormwater-Risk-Informed Screening of Spatially Optimized Permeable Pavement: An Interpretable AI–Hydrology Framework for Seocho-gu, Seoul.* Climate Risk Management. (Manuscript number CLRM-D-26-00388, under revision.)
 
 This repository is permanently archived on Zenodo (concept DOI:
   [10.5281/zenodo.19998726](https://doi.org/10.5281/zenodo.19998726); v1.0.0 DOI:
-  [10.5281/zenodo.19998727](https://doi.org/10.5281/zenodo.19998727)).
+  [10.5281/zenodo.19998727](https://doi.org/10.5281/zenodo.19998727)). The second-revision (R2)
+  snapshot is release **v1.1.0**, which adds the multi-return-period and climate-stress
+  sensitivity analysis (scripts 15–17).
 ---
 
 ## Repository Structure
@@ -31,9 +33,13 @@ This repository is permanently archived on Zenodo (concept DOI:
 │   ├── 10_permeability_sensitivity.py # Clogging analysis
 │   ├── 11_residual_diagnostics.py     # NEW (revision): residual plots, normality tests
 │   ├── 12_shap_xgboost_consistent.py  # NEW (revision): SHAP on XGBoost (consistent)
-│   ├── 13_nsga2_repeated.py           # NEW (revision): 5 NSGA-II runs + hypervolume
-│   └── 14_significance_tests.py       # NEW (revision): bootstrap CI, paired tests
+│   ├── 13_nsga2_repeated.py           # NEW (R1): 5 NSGA-II runs + hypervolume
+│   ├── 14_significance_tests.py       # NEW (R1): bootstrap CI, paired tests
+│   ├── 15_climate_stress_scenario.py  # NEW (R2): +30% climate-scaled design storm
+│   ├── 16_climate_stress_figure.py    # NEW (R2): multi-return-period + climate figure
+│   └── 17_multi_return_period.py      # NEW (R2): 30/50/100-year design storms
 ├── data/                       # Pre-computed CSV outputs
+├── figures/                    # NEW (R2): fig_climate_stress.png
 ├── model/                      # SWMM input file
 │   └── seocho_baseline.inp
 ├── requirements.txt            # Version-locked Python packages
@@ -110,6 +116,11 @@ python scripts/11_residual_diagnostics.py        # CV residual diagnostics
 python scripts/12_shap_xgboost_consistent.py     # SHAP on operational XGBoost
 python scripts/13_nsga2_repeated.py              # 5 independent NSGA-II runs
 python scripts/14_significance_tests.py          # bootstrap CI, paired t-tests
+
+# Stage 8 — SECOND-REVISION analyses (rainfall scenarios / climate framing)
+python scripts/15_climate_stress_scenario.py     # +30% climate-scaled 10-yr storm
+python scripts/17_multi_return_period.py         # 30/50/100-yr design storms
+python scripts/16_climate_stress_figure.py       # Figure 15
 ```
 
 ---
@@ -147,7 +158,7 @@ If you use this code or data, please cite:
 
 ```bibtex
 @article{Kang2026CRM,
-  title   = {Climate-Resilient Stormwater Management through Spatially Optimized Permeable Pavement: An Interpretable AI–Hydrology Framework for Seocho-gu, Seoul},
+  title   = {Scenario-Based, Stormwater-Risk-Informed Screening of Spatially Optimized Permeable Pavement: An Interpretable AI–Hydrology Framework for Seocho-gu, Seoul},
   author  = {Kang, Junsuk and others},
   journal = {Climate Risk Management},
   year    = {2026},

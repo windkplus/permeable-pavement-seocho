@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-07 — Second revision (CLRM-D-26-00388 R2) — v1.1.0
+
+Added in response to second-round reviewer comments (Reviewer #1-1, #2-1: rainfall scenarios / climate framing):
+
+- `scripts/15_climate_stress_scenario.py` — re-runs the 0–100 % coverage sweep under a +30 % climate-change scaling of the 10-year design storm (rainfall time-series scaled ×1.30; the SWMM rain-gauge SCF is the snow-catch factor and does **not** scale rainfall).
+- `scripts/17_multi_return_period.py` — coverage sweep for 30/50/100-year design storms (frequency growth factors ×1.25 / 1.36 / 1.54 relative to the 10-year event; approximate, to be reconciled with official KICT 2019 probability-rainfall values).
+- `scripts/16_climate_stress_figure.py` — multi-return-period + climate-stress figure (manuscript Figure 15).
+- `data/simulation_results_climate130.csv`, `data/simulation_results_return_periods.csv` — outputs of the new scenarios.
+- `figures/fig_climate_stress.png` — rendered figure.
+
+Key result: baseline runoff rises with storm severity (+15.5 % / +19.9 % / +25.2 % at 30/50/100-year; +17.6 % under +30 % climate), and the relative runoff reduction at a given coverage declines monotonically (e.g., 30 % coverage: 18.1 % → 15.2 % / 14.3 % / 13.2 %; 14.8 % under +30 % climate). The +30 % climate storm falls consistently between the 30- and 50-year present-climate storms.
+
+Also in this revision (manuscript-side, no new code): title/abstract/conclusions re-framed to "scenario-based, stormwater-risk-informed screening"; Rational-Method and OSM–land-use comparisons re-labelled as independent consistency/plausibility checks (not validation); new feasibility-constraint discussion (optimized layouts framed as theoretical planning candidates); table numbering reconciled.
+
 ## 2026-05 — Major revision (CLRM-D-26-00388 R1)
 
 Added in response to reviewer comments:
