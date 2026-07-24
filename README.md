@@ -10,7 +10,9 @@ This repository contains all code, input data, and processed results that reprod
 This repository is permanently archived on Zenodo (concept DOI:
   [10.5281/zenodo.19998726](https://doi.org/10.5281/zenodo.19998726); v1.0.0 DOI:
   [10.5281/zenodo.19998727](https://doi.org/10.5281/zenodo.19998727)). The third-revision (R3)
-  snapshot is release **v1.1.2**, which adds the targeted-resampling experiment (script 18),
+  snapshot is release **v1.1.2** (version DOI:
+  [10.5281/zenodo.21522480](https://doi.org/10.5281/zenodo.21522480)),
+  which adds the targeted-resampling experiment (script 18),
   the reduced-permeability re-optimization (script 19), and the SWMM run manifest (script 20).
   The second-revision (R2) snapshot is release **v1.1.1**, which added the multi-return-period
   and climate-stress sensitivity analysis (scripts 15–17) using the official KICT (2019)
