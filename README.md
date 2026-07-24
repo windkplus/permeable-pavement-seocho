@@ -9,9 +9,18 @@ This repository contains all code, input data, and processed results that reprod
 
 This repository is permanently archived on Zenodo (concept DOI:
   [10.5281/zenodo.19998726](https://doi.org/10.5281/zenodo.19998726); v1.0.0 DOI:
-  [10.5281/zenodo.19998727](https://doi.org/10.5281/zenodo.19998727)). The second-revision (R2)
-  snapshot is release **v1.1.1**, which adds the multi-return-period and climate-stress
-  sensitivity analysis (scripts 15–17) using the official KICT (2019) design-rainfall depths.
+  [10.5281/zenodo.19998727](https://doi.org/10.5281/zenodo.19998727)). The third-revision (R3)
+  snapshot is release **v1.1.2**, which adds the targeted-resampling experiment (script 18),
+  the reduced-permeability re-optimization (script 19), and the SWMM run manifest (script 20).
+  The second-revision (R2) snapshot is release **v1.1.1**, which added the multi-return-period
+  and climate-stress sensitivity analysis (scripts 15–17) using the official KICT (2019)
+  design-rainfall depths.
+
+**Reproducibility claim.** Re-executing these scripts with the pinned package versions and the
+  documented random seeds regenerates every number, table, and figure in the manuscript —
+  *computational reproducibility under the documented software environment*. Bit-identical
+  numerical output across differing operating systems, processors, and numerical-library builds
+  is neither claimed nor demonstrated.
 ---
 
 ## Repository Structure
@@ -37,9 +46,12 @@ This repository is permanently archived on Zenodo (concept DOI:
 │   ├── 14_significance_tests.py       # NEW (R1): bootstrap CI, paired tests
 │   ├── 15_climate_stress_scenario.py  # NEW (R2): +30% climate-scaled design storm
 │   ├── 16_climate_stress_figure.py    # NEW (R2): multi-return-period + climate figure
-│   └── 17_multi_return_period.py      # NEW (R2): 30/50/100-year design storms
+│   ├── 17_multi_return_period.py      # NEW (R2): 30/50/100-year design storms
+│   ├── 18_targeted_resampling.py      # NEW (R3): 50 low-coverage samples, n=251 retraining
+│   ├── 19_clogged_optimization.py     # NEW (R3): full re-optimization at 100 mm/hr
+│   └── 20_run_manifest.py             # NEW (R3): manifest of all 557 SWMM runs (Table 15)
 ├── data/                       # Pre-computed CSV outputs
-├── figures/                    # NEW (R2): fig_climate_stress.png
+├── figures/                    # fig_climate_stress.png, fig_clogged_optimization.png
 ├── model/                      # SWMM input file
 │   └── seocho_baseline.inp
 ├── requirements.txt            # Version-locked Python packages
@@ -53,7 +65,12 @@ This repository is permanently archived on Zenodo (concept DOI:
 
 - **Python**: 3.11–3.14 (tested on 3.14)
 - **OS**: Windows 11 (developed) / Linux (CI-tested)
-- **Approximate run time** on Intel i7 / 16 GB RAM: ~90 minutes for the full pipeline (~60 minutes are SWMM simulations).
+- **Approximate run time** on Intel i7 / 16 GB RAM: SWMM execution is not the bottleneck for this
+  model — a single 3-hour simulation of the 18-sub-catchment network takes ~0.02 s of engine time
+  (~0.65 s including per-scenario `.inp` generation), so all 557 model executions take ~6 minutes,
+  and a single NSGA-II run (60,000 surrogate evaluations) takes ~6 s. End-to-end wall time is
+  dominated by the geospatial preprocessing stage (script 01), which depends on OpenStreetMap and
+  Copernicus DEM download speed.
 
 Install dependencies in a fresh virtual environment:
 

@@ -1,5 +1,30 @@
 # Changelog
 
+## 2026-07 — Third revision (CLRM-D-26-00388 R3) — v1.1.2
+
+Added in response to third-round reviewer comments (Reviewer #2-9, #2-10: SWMM run accounting and archive completeness):
+
+- `scripts/18_targeted_resampling.py` — 50 additional SWMM scenarios targeted at the low-coverage / spatially-concentrated region (1-5 active dongs, seed 4218), XGBoost re-training on n = 251, and re-evaluation of the 10 directly simulated Pareto solutions on a **common hold-out** drawn from the original 201 scenarios.
+- `scripts/19_clogged_optimization.py` — full workflow repeated at Mid pavement permeability (100 mm/hr): 201 SWMM re-runs, surrogate re-training, NSGA-II re-optimization, Pareto-front and spatial-allocation comparison.
+- `data/surrogate_training_data_resampled.csv`, `data/targeted_resampling_results.csv`, `data/targeted_resampling_summary.csv`
+- `data/surrogate_training_data_midperm.csv`, `data/pareto_solutions_midperm.csv`, `data/clogged_optimization_summary.csv`, `data/clogged_spatial_comparison.csv`
+- `scripts/20_run_manifest.py` — enumerates all 557 SWMM model executions with block, generating script, filename and SHA-256 checksum (manuscript Table 15).
+- `data/swmm_run_manifest.csv`, `data/swmm_run_summary.csv`
+- `figures/fig_clogged_optimization.png` — manuscript Figure 16.
+
+Note: the 557 generated `.inp` files are regenerable intermediates and remain excluded by `.gitignore`; `swmm_run_manifest.csv` records them so the run accounting stays independently checkable.
+
+**Corrected results.** Both analyses were reported in R2 from preliminary runs whose code was not committed. Re-running them from the now-archived scripts changed two reported numbers:
+
+- Targeted resampling: low-area Pareto error is **9.6 % -> 2.9 %** (mean absolute; max 12.1 % -> 5.6 %), not the previously stated 9.3 % -> 5.1 %.
+- Clogging re-optimization: the R2 claim that the S2 spatial pattern is *preserved* under clogging is **not supported**. Individual per-dong rankings are unstable (Spearman rho = +0.25, p = 0.31; 3/5 top-5 overlap); only the cluster-scale over-weighting of the southern Bangbae sub-districts persists (2.21x -> 1.87x its impervious share). The entire clogged Pareto front lies below the design-permeability front (8.6-14.8 % vs. 14.7-22.7 % reduction).
+
+**Run accounting.** The complete study comprises **557 SWMM model executions** (manuscript Table 15): 222 core (201 LHS incl. zero-coverage baseline + 11 uniform + 10 Pareto verification) and 335 sensitivity/re-optimization runs. The figure of 221 quoted in R2 covered only part of the core workflow.
+
+**Reproducibility wording.** The claim is **computational reproducibility under the documented software environment**; bit-identical cross-platform output is neither claimed nor demonstrated.
+
+**Measured computational cost.** A single 3-h SWMM simulation of this 18-sub-catchment model takes ~0.02 s of engine time (~0.65 s including per-scenario .inp generation); all 557 runs take ~6 min. A single NSGA-II run (60,000 surrogate evaluations) takes ~6 s. The R2 figures of "~30 s per SWMM simulation" and "~60 min of SWMM" were incorrect and are corrected in the manuscript.
+
 ## 2026-07 — Second revision (CLRM-D-26-00388 R2) — v1.1.0
 
 Added in response to second-round reviewer comments (Reviewer #1-1, #2-1: rainfall scenarios / climate framing):

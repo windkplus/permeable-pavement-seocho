@@ -1,0 +1,12 @@
+﻿block,section,script,workflow,runs
+LHS surrogate training (200 LHS + 1 zero-coverage baseline),3.8.1,05_surrogate_training.py,core,201
+"Uniform-coverage sweep (0-100 %, 11 steps)","3.7, 4.3",03_run_simulation.py,core,11
+Pareto-solution verification (10 representative solutions),4.7.1,06b_pareto_validation.py,core,10
+Multi-return-period sweep (4 storms x 11 coverages),4.9,17_multi_return_period.py,sensitivity,44
+Climate-stress sweep (+30 % scaled 10-year storm),4.9,15_climate_stress_scenario.py,sensitivity,11
+Pavement-permeability (clogging) sweep,5.6,10_permeability_sensitivity.py,sensitivity,29
+Targeted resampling in the low-coverage region,4.7.2,18_targeted_resampling.py,sensitivity,50
+Reduced-permeability re-optimization (LHS re-run at 100 mm/hr),4.7.3,19_clogged_optimization.py,sensitivity,201
+CORE surrogate-development and Pareto-verification workflow,,,subtotal,222
+SENSITIVITY and re-optimization analyses,,,subtotal,335
+TOTAL SWMM model executions,,,total,557

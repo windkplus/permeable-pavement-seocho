@@ -1,0 +1,7 @@
+﻿front,n_solutions,red_min_pct,red_max_pct,area_min_pct,area_max_pct
+Design permeability (500 mm/hr),200,14.7,22.73,3.81,64.11
+Mid clogging (100 mm/hr),200,8.63,14.75,2.26,63.76
+Area (% of max imp.) required for 14 % reduction,,,,n/a,59.64
+Area (% of max imp.) required for 15 % reduction,,,,4.89,n/a
+Area (% of max imp.) required for 16 % reduction,,,,9.54,n/a
+Area (% of max imp.) required for 17 % reduction,,,,16.42,n/a

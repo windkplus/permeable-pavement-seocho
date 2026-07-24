@@ -1,0 +1,8 @@
+﻿metric,n,n201,n251
+"Mean relative error, low-area (<= 20 % of max imp.)",4,9.62,-2.88
+"Mean |relative error|, low-area (<= 20 %)",4,9.62,2.88
+"Max |relative error|, low-area (<= 20 %)",4,12.06,5.56
+"Mean |relative error|, high-area (>= 40 %)",5,0.52,0.54
+"Mean |relative error|, all 10 Pareto solutions",10,4.42,1.55
+Hold-out R2_test,,0.7888,0.8015
+Hold-out RMSE (m3),,3718.0,3605.0
