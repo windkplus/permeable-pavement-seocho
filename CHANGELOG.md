@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-11 — Fourth revision (CLRM-D-26-00388 R4) — v1.1.3
+
+Documentation and figure release; **no simulation, model input, or numerical output changed** relative to v1.1.2.
+
+- `README.md` — result-to-script map for every manuscript table and figure (= manuscript Appendix A, Table A1); regeneration commands for scripts 18–21; stale run-time and "bit-identical" wording corrected.
+- `scripts/21_pareto_front_figure.py` — re-draws manuscript Figure 9 from `pareto_solutions.csv`, `simulation_results.csv`, and `pareto_validation_results.csv`, adding the 10 SWMM-verified Pareto solutions next to the surrogate-predicted front and the uniform-coverage curve.
+- `scripts/04_visualize.py` — Figure 3: shaded band and guide lines now mark the 30–50 % range (previously guides at 20 % and 50 % and an unlabelled fill); label overlap removed.
+- `figures/fig3_combined.png`, `figures/fig_pareto_front.png` — regenerated.
+- `.zenodo.json` — "validation" → "verification" for the surrogate-vs-SWMM comparison.
+
 ## 2026-07 — Third revision (CLRM-D-26-00388 R3) — v1.1.2
 
 Added in response to third-round reviewer comments (Reviewer #2-9, #2-10: SWMM run accounting and archive completeness):

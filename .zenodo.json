@@ -1,6 +1,6 @@
 {
   "title": "Scenario-Based, Stormwater-Risk-Informed Screening of Spatially Optimized Permeable Pavement: Reproducibility Package for Seocho-gu, Seoul",
-  "description": "Code, input data, and processed results reproducing the analyses in Kang, J. (2026), 'Scenario-Based, Stormwater-Risk-Informed Screening of Spatially Optimized Permeable Pavement: An Interpretable AI-Hydrology Framework for Seocho-gu, Seoul', Climate Risk Management (manuscript CLRM-D-26-00388). The package couples pySWMM-automated SWMM scenario generation with a physics-informed XGBoost surrogate, NSGA-II multi-objective spatial optimization, direct SWMM validation of Pareto solutions, SHAP-based spatial attribution, and multi-return-period / climate-stress sensitivity analysis.",
+  "description": "Code, input data, and processed results reproducing the analyses in Kang, J. (2026), 'Scenario-Based, Stormwater-Risk-Informed Screening of Spatially Optimized Permeable Pavement: An Interpretable AI-Hydrology Framework for Seocho-gu, Seoul', Climate Risk Management (manuscript CLRM-D-26-00388). The package couples pySWMM-automated SWMM scenario generation with a physics-informed XGBoost surrogate, NSGA-II multi-objective spatial optimization, direct SWMM verification of Pareto solutions, SHAP-based spatial attribution, and multi-return-period / climate-stress sensitivity analysis.",
   "upload_type": "software",
   "license": "MIT",
   "creators": [

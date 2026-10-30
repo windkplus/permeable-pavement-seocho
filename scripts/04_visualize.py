@@ -153,18 +153,22 @@ fig3.subplots_adjust(wspace=0.35, top=0.79)
 axA.set_facecolor('white')
 axA.plot(rates, red_pct, 'o-', color=BLUE, linewidth=2.5,
          markersize=9, markerfacecolor='white', markeredgewidth=2.5)
-axA.fill_between(rates, red_pct, alpha=0.12, color=BLUE)
+# R4: the shaded band marks the 30–50 % hydrologically efficient range
+# (not an uncertainty envelope); guide lines at its two bounds
+axA.axvspan(30, 50, color=GRAY, alpha=0.12, zorder=0,
+            label='Hydrologically efficient range (30–50 %)')
 
-for ref_x in [20, 50]:
+for ref_x in [30, 50]:
     ref_y = red_pct[rates == ref_x][0]
     axA.axvline(ref_x, color=GRAY, linestyle='--', linewidth=1.2, alpha=0.6)
     axA.axhline(ref_y, color=GRAY, linestyle='--', linewidth=1.2, alpha=0.6)
 
 for x, y in zip(rates, red_pct):
-    if x in [0, 30, 60, 100]:
+    if x in [10, 30, 50, 100]:
         axA.annotate(f'{y:.1f}%',
-                     xy=(x, y), xytext=(x + 2, y + 1.2),
+                     xy=(x, y), xytext=(x - 3, y + 1.4), ha='right',
                      fontsize=11, color=BLUE, fontweight='bold')
+axA.legend(fontsize=11, loc='lower right')
 
 axA.set_xlim(-2, 105)
 axA.set_ylim(-1, 30)
